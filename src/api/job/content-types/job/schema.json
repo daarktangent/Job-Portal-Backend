@@ -24,6 +24,12 @@
     },
     "JobDetails": {
       "type": "text"
+    },
+    "user_applied": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::user-applied.user-applied",
+      "inversedBy": "jobs"
     }
   }
 }

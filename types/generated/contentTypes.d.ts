@@ -378,12 +378,57 @@ export interface ApiJobJob extends Schema.CollectionType {
     location: Attribute.String;
     Salary: Attribute.Integer;
     JobDetails: Attribute.Text;
+    user_applied: Attribute.Relation<
+      'api::job.job',
+      'manyToOne',
+      'api::user-applied.user-applied'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::job.job', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::job.job', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserAppliedUserApplied extends Schema.CollectionType {
+  collectionName: 'user_applieds';
+  info: {
+    singularName: 'user-applied';
+    pluralName: 'user-applieds';
+    displayName: 'userApplied';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    user: Attribute.Relation<
+      'api::user-applied.user-applied',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    jobs: Attribute.Relation<
+      'api::user-applied.user-applied',
+      'oneToMany',
+      'api::job.job'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-applied.user-applied',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-applied.user-applied',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -777,6 +822,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    user_applied: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::user-applied.user-applied'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -805,6 +855,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'api::job.job': ApiJobJob;
+      'api::user-applied.user-applied': ApiUserAppliedUserApplied;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;

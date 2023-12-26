@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_applieds",
+  "info": {
+    "singularName": "user-applied",
+    "pluralName": "user-applieds",
+    "displayName": "userApplied",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "user_applied"
+    },
+    "jobs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::job.job",
+      "mappedBy": "user_applied"
+    }
+  }
+}
